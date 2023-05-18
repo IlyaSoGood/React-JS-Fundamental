@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import './styles/App.css';
 import PostList from './components/PostList';
 import PostForm from './components/PostForm';
@@ -11,19 +11,21 @@ function App() {
         {id: 2, title: 'ггг 2', body: 'аа'},
         {id: 3, title: 'ввв 3', body: 'яя'}
     ])
+   
+    const [selectedSort, setSelectedSort] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
-    function getSortedPosts() {
-        console.log('ОТРАБОТАЛА ФУНКЦИЯ SORTED POSTS ')
+    const sortedPosts = useMemo(() => {
+        console.log('ОТРАБОТАЛА ФУНКЦИЯ СОРТЕД ПОСТС')
         if(selectedSort) {
             return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
         }
         return posts;
-    }
-    
-    const [selectedSort, setSelectedSort] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
+    }, [selectedSort, posts])
 
-    const sortedPosts = getSortedPosts();
+    const sortedAndSearchedPosts = useMemo(() => {
+        return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery))
+    }, [searchQuery, sortedPosts])
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -60,7 +62,7 @@ function App() {
             </div>
 
             {posts.length !== 0
-                ? <PostList remove={removePost} posts={sortedPosts} title={'Посты про JS'}/>
+                ? <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Посты про JS'}/>
                 : <h1 style={{textAlign: 'center'}}>Посты не были найдены</h1>
             }
         </div>
