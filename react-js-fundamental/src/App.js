@@ -24,11 +24,10 @@ function App() {
     const [page, setPage] = useState(1);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
-
     //ДЗ сделать usePagination
     let pagesArray = usePagination(totalPages);
 
-    const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
+    const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
         const response = await PostService.getAll(limit, page);
         setPosts(response.data);
         const totalCount = response.headers['x-total-count']
@@ -41,8 +40,8 @@ function App() {
     }
 
     useEffect(() => {
-        fetchPosts()
-    }, [page])
+        fetchPosts(limit, page)
+    }, [])
 
     //Получаем пост из дочернего компонента
     const removePost = (post) => {
@@ -51,7 +50,7 @@ function App() {
 
     const changePage = (page) => {
         setPage(page);
-        // fetchPosts();
+        fetchPosts(limit, page);
     }
 
     return (
