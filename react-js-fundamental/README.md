@@ -1,3 +1,6 @@
+# Данное приложение представляет из себя многостраничное, многофункциональное приложение (пагинация, роутинг страниц, логирование, fetch данных и др.). Упор был сделан на функциональность, а не на внешний вид. Внешний вид максимально-минималистичный :-D
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
