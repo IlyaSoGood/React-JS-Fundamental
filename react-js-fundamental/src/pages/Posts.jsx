@@ -1,15 +1,15 @@
 import React, {useMemo, useState, useEffect} from 'react';
-import PostList from './components/PostList';
-import PostForm from './components/PostForm';
-import PostFiler from './components/PostFiler';
-import MyModal from './components/UI/MyModal/MyModal';
-import MyButton from './components/UI/button/MyButton';
-import { usePosts } from './hooks/usePost';
-import PostService from './API/PostService';
-import Loader from './components/UI/Loader/Loader';
-import { useFetching } from './hooks/useFetching';
-import { getPagesCount } from './utils/pages';
-import Pagination from './components/UI/pagination/Pagination';
+import PostList from '../components/PostList';
+import PostForm from '../components/PostForm';
+import PostFiler from '../components/PostFiler';
+import MyModal from '../components/UI/MyModal/MyModal';
+import MyButton from '../components/UI/button/MyButton';
+import { usePosts } from '../hooks/usePost';
+import PostService from '../API/PostService';
+import Loader from '../components/UI/Loader/Loader';
+import { useFetching } from '../hooks/useFetching';
+import { getPagesCount } from '../utils/pages';
+import Pagination from '../components/UI/pagination/Pagination';
 
 
 function Posts() {
@@ -65,10 +65,11 @@ function Posts() {
             {postError &&
                 <h1>Произошла ошибка {postError}</h1>
             }
-            {isPostsLoading
-                ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
-                : <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Посты про JS'}/>
-            }
+            {isPostsLoading &&
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>}
+
+            <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Посты про JS'}/>
+
             <Pagination 
                 page={page} 
                 changePage={changePage}
